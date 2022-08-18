@@ -17,24 +17,18 @@ type Literal {
 }
 
 fn literal_defunc() {
-  Defunc1(
-    Literal,
-    fn(literal) {
-      let Literal(value) = literal
-      #(value)
-    },
-    #("value"),
-  )
+  Defunc1(Literal, fn(l) { #(l.value) }, #("value"))
 }
 
 fn literal_schema() {
-  schema.schema1(literal_defunc(), schema.int())
+  schema.struct1(literal_defunc(), schema.int())
 }
 
 pub fn defunc1_literal_test() {
   let str = "{\"value\":123}"
   let v = Literal(123)
 
+  assert True = literal_schema().equals(v, v)
   assert Ok(dyn) = json.decode(str, dynamic.dynamic)
   assert Ok(decoded) = literal_schema().from_json(dyn)
 
@@ -52,18 +46,11 @@ type Listed {
 }
 
 fn listed_defunc() {
-  Defunc2(
-    Listed,
-    fn(listed) {
-      let Listed(value, value2) = listed
-      #(value, value2)
-    },
-    #("value", "value2"),
-  )
+  Defunc2(Listed, fn(l) { #(l.value, l.value2) }, #("value", "value2"))
 }
 
 fn listed_schema() {
-  schema.schema2(
+  schema.struct2(
     listed_defunc(),
     schema.list(schema.int()),
     schema.option(schema.int()),
@@ -86,9 +73,14 @@ pub fn defunc1_listed_test() {
   |> should.equal(str)
 }
 
-pub fn defunc1_listed2_test() {
+pub fn schema1_listed2_test() {
   let str = "{\"value\":[123],\"value2\":456}"
   let v = Listed([123], Some(456))
+
+  let v2 = Listed([1234], Some(456))
+
+  assert True = listed_schema().equals(v, v)
+  assert False = listed_schema().equals(v, v2)
 
   assert Ok(dyn) = json.decode(str, dynamic.dynamic)
   assert Ok(decoded) = listed_schema().from_json(dyn)
@@ -107,18 +99,11 @@ type Wrapper {
 }
 
 fn wrapper_defunc() {
-  Defunc1(
-    Wrapper,
-    fn(w) {
-      let Wrapper(lit) = w
-      #(lit)
-    },
-    #("lit"),
-  )
+  Defunc1(Wrapper, fn(w) { #(w.lit) }, #("lit"))
 }
 
 fn wrapper_schema() {
-  schema.schema1(wrapper_defunc(), literal_schema())
+  schema.struct1(wrapper_defunc(), literal_schema())
 }
 
 pub fn defunc1_wrapper_test() {

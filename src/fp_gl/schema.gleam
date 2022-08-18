@@ -16,7 +16,7 @@ pub type Schema(a) {
   Schema(
     to_json: fn(a) -> Json,
     from_json: fn(Dynamic) -> Result(a, DecodeErrors),
-    eq: Eq(a),
+    equals: Eq(a),
   )
 }
 
@@ -44,7 +44,7 @@ pub fn list(c: Schema(a)) -> Schema(List(a)) {
   Schema(
     fn(a) { json.array(a, c.to_json) },
     dynamic.list(c.from_json),
-    flist.get_eq(c.eq),
+    flist.get_eq(c.equals),
   )
 }
 
@@ -57,7 +57,7 @@ pub fn option(c: Schema(a)) -> Schema(Option(a)) {
       }
     },
     dynamic.optional(c.from_json),
-    foption.get_eq(c.eq),
+    foption.get_eq(c.equals),
   )
 }
 
@@ -65,7 +65,7 @@ pub fn option(c: Schema(a)) -> Schema(Option(a)) {
 // constructors
 // -------------------------------------------------------------------------------------
 
-pub fn schema1(defunc: Defunc1(t1, t), schema1: Schema(t1)) -> Schema(t) {
+pub fn struct1(defunc: Defunc1(t1, t), schema1: Schema(t1)) -> Schema(t) {
   Schema(
     fn(value) {
       let #(value1) = defunc.destructor(value)
@@ -79,15 +79,15 @@ pub fn schema1(defunc: Defunc1(t1, t), schema1: Schema(t1)) -> Schema(t) {
       |> dynamic.field(name1, of: schema1.from_json)
       |> result.map(defunc.constructor)
     },
-    Eq(fn(x, y) {
+    fn(x, y) {
       let #(x_value1) = defunc.destructor(x)
       let #(y_value1) = defunc.destructor(y)
-      schema1.eq.equals(x_value1, y_value1)
-    }),
+      schema1.equals(x_value1, y_value1)
+    },
   )
 }
 
-pub fn schema2(
+pub fn struct2(
   defunc: Defunc2(t1, t2, t),
   schema1: Schema(t1),
   schema2: Schema(t2),
@@ -108,18 +108,15 @@ pub fn schema2(
         dynamic.field(name2, of: schema2.from_json),
       )
     },
-    Eq(fn(x, y) {
+    fn(x, y) {
       let #(x_value1, x_value2) = defunc.destructor(x)
       let #(y_value1, y_value2) = defunc.destructor(y)
-      schema1.eq.equals(x_value1, y_value1) && schema2.eq.equals(
-        x_value2,
-        y_value2,
-      )
-    }),
+      schema1.equals(x_value1, y_value1) && schema2.equals(x_value2, y_value2)
+    },
   )
 }
 
-pub fn schema3(
+pub fn struct3(
   defunc: Defunc3(t1, t2, t3, t),
   schema1: Schema(t1),
   schema2: Schema(t2),
@@ -146,13 +143,14 @@ pub fn schema3(
         dynamic.field(name3, of: schema3.from_json),
       )
     },
-    Eq(fn(x, y) {
+    fn(x, y) {
       let #(x_value1, x_value2, x_value3) = defunc.destructor(x)
       let #(y_value1, y_value2, y_value3) = defunc.destructor(y)
-      schema1.eq.equals(x_value1, y_value1) && schema2.eq.equals(
-        x_value2,
-        y_value2,
-      ) && schema3.eq.equals(x_value3, y_value3)
-    }),
+      schema1.equals(x_value1, y_value1) && schema2.equals(x_value2, y_value2) && schema3.equals(
+        x_value3,
+        y_value3,
+      )
+    },
   )
 }
+// TODO tuple?
