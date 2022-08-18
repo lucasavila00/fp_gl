@@ -11,3 +11,7 @@ pub type Ord(a) {
 pub type Monoid(a) {
   Monoid(concat: fn(a, a) -> a, empty: a)
 }
+
+pub type Eq(a) {
+  Eq(equals: fn(a, a) -> Bool)
+}

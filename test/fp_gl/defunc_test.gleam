@@ -17,7 +17,7 @@ fn literal_defunc() {
   Defunc1(
     Literal,
     fn(literal) {
-      assert Literal(value) = literal
+      let Literal(value) = literal
       #(value)
     },
     #("value"),
@@ -32,7 +32,7 @@ fn expression_defunc() {
   Defunc2(
     Expression,
     fn(expression) {
-      assert Expression(first, second) = expression
+      let Expression(first, second) = expression
       #(first, second)
     },
     #("first", "second"),
