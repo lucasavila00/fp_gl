@@ -1,7 +1,7 @@
 import gleeunit
 import gleeunit/should
 import fp_gl/defunc.{Defunc1, Defunc2}
-import fp_gl/codec
+import fp_gl/schema
 import fp_gl/eq
 import gleam/json
 import gleam/dynamic
@@ -27,8 +27,8 @@ fn literal_defunc() {
   )
 }
 
-fn literal_codec() {
-  codec.codec1(literal_defunc(), codec.int())
+fn literal_schema() {
+  schema.schema1(literal_defunc(), schema.int())
 }
 
 pub fn defunc1_literal_test() {
@@ -36,13 +36,13 @@ pub fn defunc1_literal_test() {
   let v = Literal(123)
 
   assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = literal_codec().from_json(dyn)
+  assert Ok(decoded) = literal_schema().from_json(dyn)
 
   decoded
   |> should.equal(v)
 
   v
-  |> literal_codec().to_json()
+  |> literal_schema().to_json()
   |> json.to_string()
   |> should.equal(str)
 }
@@ -62,11 +62,11 @@ fn listed_defunc() {
   )
 }
 
-fn listed_codec() {
-  codec.codec2(
+fn listed_schema() {
+  schema.schema2(
     listed_defunc(),
-    codec.list(codec.int()),
-    codec.option(codec.int()),
+    schema.list(schema.int()),
+    schema.option(schema.int()),
   )
 }
 
@@ -75,13 +75,13 @@ pub fn defunc1_listed_test() {
   let v = Listed([123], None)
 
   assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = listed_codec().from_json(dyn)
+  assert Ok(decoded) = listed_schema().from_json(dyn)
 
   decoded
   |> should.equal(v)
 
   v
-  |> listed_codec().to_json()
+  |> listed_schema().to_json()
   |> json.to_string()
   |> should.equal(str)
 }
@@ -91,13 +91,13 @@ pub fn defunc1_listed2_test() {
   let v = Listed([123], Some(456))
 
   assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = listed_codec().from_json(dyn)
+  assert Ok(decoded) = listed_schema().from_json(dyn)
 
   decoded
   |> should.equal(v)
 
   v
-  |> listed_codec().to_json()
+  |> listed_schema().to_json()
   |> json.to_string()
   |> should.equal(str)
 }
@@ -117,8 +117,8 @@ fn wrapper_defunc() {
   )
 }
 
-fn wrapper_codec() {
-  codec.codec1(wrapper_defunc(), literal_codec())
+fn wrapper_schema() {
+  schema.schema1(wrapper_defunc(), literal_schema())
 }
 
 pub fn defunc1_wrapper_test() {
@@ -126,19 +126,19 @@ pub fn defunc1_wrapper_test() {
   let v = Wrapper(Literal(123))
 
   assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = wrapper_codec().from_json(dyn)
+  assert Ok(decoded) = wrapper_schema().from_json(dyn)
 
   decoded
   |> should.equal(v)
 
   v
-  |> wrapper_codec().to_json()
+  |> wrapper_schema().to_json()
   |> json.to_string()
   |> should.equal(str)
 }
 
-fn big_int_codec() {
-  codec.Codec(
+fn big_int_schema() {
+  schema.Schema(
     json.int,
     fn(str) {
       try i = dynamic.int(str)
@@ -155,7 +155,7 @@ pub fn defunc1_big_literal_test() {
   let str = "123"
 
   assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = big_int_codec().from_json(dyn)
+  assert Ok(decoded) = big_int_schema().from_json(dyn)
 
   decoded
   |> should.equal(123)
@@ -164,7 +164,7 @@ pub fn defunc1_big_literal_test() {
   assert Ok(dyn) = json.decode(str, dynamic.dynamic)
 
   dyn
-  |> big_int_codec().from_json()
+  |> big_int_schema().from_json()
   |> result.is_error()
   |> should.equal(True)
 }
