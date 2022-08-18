@@ -2,7 +2,6 @@
 # You typically do not need to edit this file
 
 packages = [
-  { name = "gleam_javascript", version = "0.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_javascript", source = "hex", outer_checksum = "BD62C0CE36E3A07A2EF9ADE9ED7DE4FAB4BF751EE7B4954C40BDA821910EBE42" },
   { name = "gleam_json", version = "0.5.0", build_tools = ["gleam"], requirements = ["gleam_stdlib", "thoas"], otp_app = "gleam_json", source = "hex", outer_checksum = "E42443C98AA66E30143C24818F2CEA801491C10CE6B1A5EDDF3FC4ABDC7601CB" },
   { name = "gleam_stdlib", version = "0.22.3", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "F2C2D389B06426E1289D5419F89BDE8E0F7F35A40B2BBB3C88188481F0D44A9F" },
   { name = "gleeunit", version = "0.6.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "A006864621DB80C4FBB0746580703502FD81A4D38D23FCB20A8120984D353DF0" },
@@ -10,7 +9,6 @@ packages = [
 ]
 
 [requirements]
-gleam_javascript = "~> 0.1"
 gleam_json = "~> 0.5"
 gleam_stdlib = "~> 0.22"
 gleeunit = "~> 0.6"

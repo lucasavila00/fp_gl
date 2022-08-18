@@ -1,11 +1,5 @@
-import gleam/order.{Eq, Gt, Lt, Order}
-
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-pub type Ord(a) {
-  Ord(compare: fn(a, a) -> Order)
-}
+import gleam/order.{Eq, Gt, Lt}
+import fp2/models.{Monoid, Ord, Semigroup}
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -28,4 +22,24 @@ pub fn max(o: Ord(a)) {
       Gt -> first
     }
   }
+}
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+pub fn get_semigroup() -> Semigroup(Ord(a)) {
+  Semigroup(fn(first: Ord(a), second: Ord(a)) {
+    Ord(fn(a: a, b: a) {
+      let first_res = first.compare(a, b)
+      case first_res {
+        Eq -> second.compare(a, b)
+        _ -> first_res
+      }
+    })
+  })
+}
+
+pub fn get_monoid() -> Monoid(Ord(a)) {
+  Monoid(get_semigroup().concat, Ord(fn(_, _) { Eq }))
 }

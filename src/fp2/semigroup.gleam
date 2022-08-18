@@ -1,35 +1,59 @@
 import gleam/list
-import fp2/ord.{Ord}
-import fp2/defunc.{Defunc1, Defunc2}
-
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-pub type Semigroup(a) {
-  Semigroup(concat: fn(a, a) -> a)
-}
+import fp2/models.{Ord, Semigroup}
+import fp2/defunc.{Defunc1, Defunc2, Defunc3}
+import fp2/ord
 
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
 
-pub fn struct1(hkt: Defunc1(t1, t), semigroup1: Semigroup(t1)) -> Semigroup(t) {
+pub fn reverse(s: Semigroup(a)) -> Semigroup(a) {
+  Semigroup(fn(x, y) { s.concat(y, x) })
+}
+
+pub fn intercalate(middle: a) {
+  fn(s: Semigroup(a)) -> Semigroup(a) {
+    Semigroup(fn(x, y) { s.concat(x, s.concat(middle, y)) })
+  }
+}
+
+pub fn struct1(
+  defunc: Defunc1(t1, t),
+  semigroup1: Semigroup(t1),
+) -> Semigroup(t) {
   Semigroup(fn(x: t, y: t) {
-    let x = hkt.destructor(x)
-    let y = hkt.destructor(y)
-    hkt.constructor(semigroup1.concat(x.0, y.0))
+    let x = defunc.destructor(x)
+    let y = defunc.destructor(y)
+    defunc.constructor(semigroup1.concat(x.0, y.0))
   })
 }
 
 pub fn struct2(
-  hkt: Defunc2(t1, t2, t),
+  defunc: Defunc2(t1, t2, t),
   semigroup1: Semigroup(t1),
   semigroup2: Semigroup(t2),
 ) -> Semigroup(t) {
   Semigroup(fn(x: t, y: t) {
-    let x = hkt.destructor(x)
-    let y = hkt.destructor(y)
-    hkt.constructor(semigroup1.concat(x.0, y.0), semigroup2.concat(x.1, y.1))
+    let x = defunc.destructor(x)
+    let y = defunc.destructor(y)
+    defunc.constructor(semigroup1.concat(x.0, y.0), semigroup2.concat(x.1, y.1))
+  })
+}
+
+pub fn struct3(
+  defunc: Defunc3(t1, t2, t3, t),
+  semigroup1: Semigroup(t1),
+  semigroup2: Semigroup(t2),
+  semigroup3: Semigroup(t3),
+) -> Semigroup(t) {
+  Semigroup(fn(x: t, y: t) {
+    let x = defunc.destructor(x)
+    let y = defunc.destructor(y)
+    defunc.constructor(
+      semigroup1.concat(x.0, y.0),
+      semigroup2.concat(x.1, y.1),
+      semigroup3.concat(x.2, y.2),
+    )
   })
 }
 
@@ -56,22 +80,6 @@ pub fn tuple3(
       semigroup1.concat(x.0, y.0),
       semigroup2.concat(x.1, y.1),
       semigroup3.concat(x.2, y.2),
-    )
-  })
-}
-
-pub fn tuple4(
-  semigroup1: Semigroup(a),
-  semigroup2: Semigroup(b),
-  semigroup3: Semigroup(c),
-  semigroup4: Semigroup(d),
-) -> Semigroup(#(a, b, c, d)) {
-  Semigroup(fn(x: #(a, b, c, d), y: #(a, b, c, d)) {
-    #(
-      semigroup1.concat(x.0, y.0),
-      semigroup2.concat(x.1, y.1),
-      semigroup3.concat(x.2, y.2),
-      semigroup4.concat(x.3, y.3),
     )
   })
 }
@@ -106,6 +114,7 @@ pub fn last() -> Semigroup(a) {
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
+
 pub fn concat_all(m: Semigroup(a), empty: a) {
   fn(ass: List(a)) { list.fold(ass, empty, m.concat) }
 }

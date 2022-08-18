@@ -1,7 +1,7 @@
 import gleeunit
 import gleeunit/should
 import fp2/defunc.{Defunc1, Defunc2}
-import fp2/ord.{Ord}
+import fp2/models.{Ord}
 import fp2/semigroup
 import gleam/int
 
@@ -9,12 +9,11 @@ pub fn main() {
   gleeunit.main()
 }
 
-type Ast {
-  Expression(first: Int, second: Int)
+type Literal {
   Literal(value: Int)
 }
 
-fn literal_hkt() {
+fn literal_defunc() {
   Defunc1(
     Literal,
     fn(literal) {
@@ -25,7 +24,11 @@ fn literal_hkt() {
   )
 }
 
-fn expression_hkt() {
+type Expression {
+  Expression(first: Int, second: Int)
+}
+
+fn expression_defunc() {
   Defunc2(
     Expression,
     fn(expression) {
@@ -36,9 +39,9 @@ fn expression_hkt() {
   )
 }
 
-pub fn hkt1_test() {
+pub fn defunc1_test() {
   let max_int = semigroup.max(Ord(int.compare))
-  let semi = semigroup.struct1(literal_hkt(), max_int)
+  let semi = semigroup.struct1(literal_defunc(), max_int)
 
   let v1 = Literal(1)
   let v2 = Literal(2)
@@ -47,10 +50,10 @@ pub fn hkt1_test() {
   |> should.equal(Literal(2))
 }
 
-pub fn hkt2_test() {
+pub fn defunc2_test() {
   let max_int = semigroup.max(Ord(int.compare))
   let min_int = semigroup.min(Ord(int.compare))
-  let semi = semigroup.struct2(expression_hkt(), min_int, max_int)
+  let semi = semigroup.struct2(expression_defunc(), min_int, max_int)
 
   let v1 = Expression(1, 1)
   let v2 = Expression(2, 2)

@@ -13,3 +13,11 @@ pub type Defunc2(t1, t2, t) {
     names: #(String, String),
   )
 }
+
+pub type Defunc3(t1, t2, t3, t) {
+  Defunc3(
+    constructor: fn(t1, t2, t3) -> t,
+    destructor: fn(t) -> #(t1, t2, t3),
+    names: #(String, String, String),
+  )
+}

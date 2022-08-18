@@ -14,7 +14,7 @@ type Literal {
   Literal(value: Int)
 }
 
-fn literal_hkt() {
+fn literal_defunc() {
   Defunc1(
     Literal,
     fn(literal) {
@@ -26,14 +26,14 @@ fn literal_hkt() {
 }
 
 fn literal_codec() {
-  codec.codec1(literal_hkt(), codec.int())
+  codec.codec1(literal_defunc(), codec.int())
 }
 
 type Wrapper {
   Wrapper(lit: Literal)
 }
 
-fn wrapper_hkt() {
+fn wrapper_defunc() {
   Defunc1(
     Wrapper,
     fn(w) {
@@ -44,7 +44,7 @@ fn wrapper_hkt() {
   )
 }
 
-pub fn hkt1_literal_test() {
+pub fn defunc1_literal_test() {
   let str = "{\"value\":123}"
   let v = Literal(123)
 
@@ -60,8 +60,8 @@ pub fn hkt1_literal_test() {
   |> should.equal(str)
 }
 
-pub fn hkt1_wrapper_test() {
-  let wrapper_codec = codec.codec1(wrapper_hkt(), literal_codec())
+pub fn defunc1_wrapper_test() {
+  let wrapper_codec = codec.codec1(wrapper_defunc(), literal_codec())
   let str = "{\"lit\":{\"value\":123}}"
   let v = Wrapper(Literal(123))
 
@@ -90,7 +90,7 @@ fn big_int_codec() {
   )
 }
 
-pub fn hkt1_big_literal_test() {
+pub fn defunc1_big_literal_test() {
   let str = "123"
 
   assert Ok(dyn) = json.decode(str, dynamic.dynamic)

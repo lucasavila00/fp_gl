@@ -1,4 +1,5 @@
 import fp2/eq.{Eq}
+import fp2/models.{Ord}
 import gleam/list
 
 pub fn get_eq(e: Eq(a)) -> Eq(List(a)) {
@@ -9,4 +10,11 @@ pub fn get_eq(e: Eq(a)) -> Eq(List(a)) {
       e.equals(x, y)
     })
   })
+}
+
+pub fn sort(o: Ord(a)) {
+  fn(lst: List(a)) -> List(a) {
+    lst
+    |> list.sort(o.compare)
+  }
 }
