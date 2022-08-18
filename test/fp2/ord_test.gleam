@@ -1,9 +1,9 @@
 import gleeunit
 import gleeunit/should
-import fp2/models.{Ord}
-import fp2/monoid
-import fp2/ord
-import fp2/flist
+import fp_gl/models.{Ord}
+import fp_gl/monoid
+import fp_gl/ord
+import fp_gl/flist
 import gleam/int
 import gleam/string
 

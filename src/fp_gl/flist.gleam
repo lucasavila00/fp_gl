@@ -1,5 +1,5 @@
-import fp2/eq.{Eq}
-import fp2/models.{Ord}
+import fp_gl/eq.{Eq}
+import fp_gl/models.{Ord}
 import gleam/list
 
 pub fn get_eq(e: Eq(a)) -> Eq(List(a)) {

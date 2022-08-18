@@ -1,9 +1,9 @@
-name = "fp2"
+name = "fp_gl"
 version = "0.0.1"
 
 licences = ["Apache-2.0"]
 description = "A porting of some parts of fp-ts to Gleam"
-repository = { type = "github", user = "lucasavila00", repo = "fp2" }
+repository = { type = "github", user = "lucasavila00", repo = "fp_gl" }
 
 [dependencies]
 gleam_stdlib = "~> 0.22"

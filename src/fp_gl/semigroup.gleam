@@ -1,7 +1,7 @@
 import gleam/list
-import fp2/models.{Ord, Semigroup}
-import fp2/defunc.{Defunc1, Defunc2, Defunc3}
-import fp2/ord
+import fp_gl/models.{Ord, Semigroup}
+import fp_gl/defunc.{Defunc1, Defunc2, Defunc3}
+import fp_gl/ord
 
 // -------------------------------------------------------------------------------------
 // combinators

@@ -1,7 +1,7 @@
 import gleeunit
 import gleeunit/should
-import fp2/defunc.{Defunc1}
-import fp2/codec
+import fp_gl/defunc.{Defunc1}
+import fp_gl/codec
 import gleam/json
 import gleam/dynamic
 import gleam/result

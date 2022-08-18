@@ -1,4 +1,4 @@
-import fp2/models.{Monoid}
+import fp_gl/models.{Monoid}
 import gleam/list
 
 pub fn concat_all(m: Monoid(a)) {

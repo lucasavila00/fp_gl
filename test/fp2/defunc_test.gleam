@@ -1,8 +1,8 @@
 import gleeunit
 import gleeunit/should
-import fp2/defunc.{Defunc1, Defunc2}
-import fp2/models.{Ord}
-import fp2/semigroup
+import fp_gl/defunc.{Defunc1, Defunc2}
+import fp_gl/models.{Ord}
+import fp_gl/semigroup
 import gleam/int
 
 pub fn main() {

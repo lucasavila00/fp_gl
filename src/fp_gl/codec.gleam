@@ -1,4 +1,4 @@
-import fp2/defunc.{Defunc1, Defunc2, Defunc3}
+import fp_gl/defunc.{Defunc1, Defunc2, Defunc3}
 import gleam/json.{Json}
 import gleam/result
 import gleam/dynamic.{DecodeErrors, Dynamic}
