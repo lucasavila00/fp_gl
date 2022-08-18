@@ -3,15 +3,7 @@
 [![Package Version](https://img.shields.io/hexpm/v/fp_gl)](https://hex.pm/packages/fp_gl)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/fp_gl/)
 
-A Gleam project
-
-## Quick start
-
-```sh
-gleam run   # Run the project
-gleam test  # Run the tests
-gleam shell # Run an Erlang shell
-```
+A porting of some parts of fp-ts to Gleam
 
 ## Installation
 
