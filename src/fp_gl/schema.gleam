@@ -1,12 +1,12 @@
-import fp_gl/defunc.{Defunc1, Defunc2, Defunc3}
-import fp_gl/models.{Eq}
+import fp_gl/defunc.{type Defunc1, type Defunc2, type Defunc3}
+import fp_gl/models.{type Eq}
 import fp_gl/eq
 import fp_gl/flist
 import fp_gl/foption
-import gleam/json.{Json}
+import gleam/json.{type Json}
 import gleam/result
-import gleam/dynamic.{DecodeErrors, Dynamic}
-import gleam/option.{None, Option, Some}
+import gleam/dynamic.{type DecodeErrors, type Dynamic}
+import gleam/option.{type Option, None, Some}
 
 // -------------------------------------------------------------------------------------
 // models
@@ -146,10 +146,9 @@ pub fn struct3(
     fn(x, y) {
       let #(x_value1, x_value2, x_value3) = defunc.destructor(x)
       let #(y_value1, y_value2, y_value3) = defunc.destructor(y)
-      schema1.equals(x_value1, y_value1) && schema2.equals(x_value2, y_value2) && schema3.equals(
-        x_value3,
-        y_value3,
-      )
+      schema1.equals(x_value1, y_value1)
+      && schema2.equals(x_value2, y_value2)
+      && schema3.equals(x_value3, y_value3)
     },
   )
 }

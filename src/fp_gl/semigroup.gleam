@@ -1,6 +1,6 @@
 import gleam/list
-import fp_gl/models.{Ord, Semigroup}
-import fp_gl/defunc.{Defunc1, Defunc2, Defunc3}
+import fp_gl/models.{type Ord, type Semigroup, Semigroup}
+import fp_gl/defunc.{type Defunc1, type Defunc2, type Defunc3}
 import fp_gl/ord
 
 // -------------------------------------------------------------------------------------

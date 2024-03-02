@@ -1,4 +1,4 @@
-import gleam/order.{Order}
+import gleam/order.{type Order}
 
 pub type Semigroup(a) {
   Semigroup(concat: fn(a, a) -> a)

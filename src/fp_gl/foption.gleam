@@ -1,5 +1,5 @@
-import fp_gl/models.{Eq}
-import gleam/option.{None, Option, Some}
+import fp_gl/models.{type Eq}
+import gleam/option.{type Option, None, Some}
 
 pub fn get_eq(e: Eq(a)) -> Eq(Option(a)) {
   fn(x, y) {

@@ -1,4 +1,4 @@
-import fp_gl/models.{Eq}
+import fp_gl/models.{type Eq}
 
 pub fn from_equals(equals: fn(a, a) -> Bool) -> Eq(a) {
   equals

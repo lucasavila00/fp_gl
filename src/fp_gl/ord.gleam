@@ -1,5 +1,7 @@
 import gleam/order.{Eq, Gt, Lt}
-import fp_gl/models.{Monoid, Ord, Semigroup}
+import fp_gl/models.{
+  type Monoid, type Ord, type Semigroup, Monoid, Ord, Semigroup,
+}
 
 // -------------------------------------------------------------------------------------
 // utils
