@@ -1,10 +1,10 @@
 import gleeunit
 import gleeunit/should
 import fp_gl/defunc.{Defunc3}
-import fp_gl/models.{Ord, Semigroup}
+import fp_gl/models.{type Semigroup, Ord, Semigroup}
 import fp_gl/semigroup
 import gleam/int
-import gleam/option.{None, Option, Some}
+import gleam/option.{type Option, None, Some}
 
 pub fn main() {
   gleeunit.main()

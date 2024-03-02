@@ -6,7 +6,7 @@ import fp_gl/eq
 import gleam/json
 import gleam/dynamic
 import gleam/result
-import gleam/option.{None, Option, Some}
+import gleam/option.{type Option, None, Some}
 
 pub fn main() {
   gleeunit.main()
@@ -28,9 +28,9 @@ pub fn defunc1_literal_test() {
   let str = "{\"value\":123}"
   let v = Literal(123)
 
-  assert True = literal_schema().equals(v, v)
-  assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = literal_schema().from_json(dyn)
+  let assert True = literal_schema().equals(v, v)
+  let assert Ok(dyn) = json.decode(str, dynamic.dynamic)
+  let assert Ok(decoded) = literal_schema().from_json(dyn)
 
   decoded
   |> should.equal(v)
@@ -61,8 +61,8 @@ pub fn defunc1_listed_test() {
   let str = "{\"value\":[123],\"value2\":null}"
   let v = Listed([123], None)
 
-  assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = listed_schema().from_json(dyn)
+  let assert Ok(dyn) = json.decode(str, dynamic.dynamic)
+  let assert Ok(decoded) = listed_schema().from_json(dyn)
 
   decoded
   |> should.equal(v)
@@ -79,11 +79,11 @@ pub fn schema1_listed2_test() {
 
   let v2 = Listed([1234], Some(456))
 
-  assert True = listed_schema().equals(v, v)
-  assert False = listed_schema().equals(v, v2)
+  let assert True = listed_schema().equals(v, v)
+  let assert False = listed_schema().equals(v, v2)
 
-  assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = listed_schema().from_json(dyn)
+  let assert Ok(dyn) = json.decode(str, dynamic.dynamic)
+  let assert Ok(decoded) = listed_schema().from_json(dyn)
 
   decoded
   |> should.equal(v)
@@ -110,8 +110,8 @@ pub fn defunc1_wrapper_test() {
   let str = "{\"lit\":{\"value\":123}}"
   let v = Wrapper(Literal(123))
 
-  assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = wrapper_schema().from_json(dyn)
+  let assert Ok(dyn) = json.decode(str, dynamic.dynamic)
+  let assert Ok(decoded) = wrapper_schema().from_json(dyn)
 
   decoded
   |> should.equal(v)
@@ -126,7 +126,7 @@ fn big_int_schema() {
   schema.Schema(
     json.int,
     fn(str) {
-      try i = dynamic.int(str)
+      use i <- result.try(dynamic.int(str))
       case i > 100 {
         True -> Ok(i)
         False -> Error([])
@@ -139,14 +139,14 @@ fn big_int_schema() {
 pub fn defunc1_big_literal_test() {
   let str = "123"
 
-  assert Ok(dyn) = json.decode(str, dynamic.dynamic)
-  assert Ok(decoded) = big_int_schema().from_json(dyn)
+  let assert Ok(dyn) = json.decode(str, dynamic.dynamic)
+  let assert Ok(decoded) = big_int_schema().from_json(dyn)
 
   decoded
   |> should.equal(123)
 
   let str = "1"
-  assert Ok(dyn) = json.decode(str, dynamic.dynamic)
+  let assert Ok(dyn) = json.decode(str, dynamic.dynamic)
 
   dyn
   |> big_int_schema().from_json()
